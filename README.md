@@ -1,6 +1,10 @@
 # Tarea 2 - Taller de Redes y Servicios
 ## Protocolo XMPP
 
+##Video de demostración
+
+[Ver video](https://drive.google.com/file/d/1a4GxtvX7xx5B5dluu6hbPquAjpsAY7gG/view?usp=sharing)
+
 Implementación de una arquitectura cliente-servidor usando el protocolo XMPP, con ejabberd como servidor y Profanity como cliente, ambos compilados desde su código fuente oficial y ejecutados en contenedores Docker independientes.
 
 ## Tecnologías utilizadas
