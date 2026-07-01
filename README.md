@@ -134,17 +134,26 @@ python3 fuzzing2.py
 ```
 Inyecta 5 estrofas `<iq/>` con valores aleatorios o fuera de especificación para evaluar el manejo de errores del servidor.
 
-### Reiniciar contenedor Scapy si ya existe
+### 5. Modificación 1 - Campo type inválido
+Dentro del contenedor Scapy:
 ```bash
-sudo docker rm scapy-mitm
-sudo docker run -it \
-    --name scapy-mitm \
-    --network red-xmpp \
-    --cap-add=NET_ADMIN \
-    --cap-add=NET_RAW \
-    --privileged \
-    scapy-mitm
+python3 mod1.py
 ```
+Envía un mensaje con `type='INVALIDO'`. El servidor lo entrega igual al destinatario tratándolo como tipo `normal`.
+
+### 6. Modificación 2 - Usuario inexistente
+Dentro del contenedor Scapy:
+```bash
+python3 mod2.py
+```
+Envía un mensaje a un usuario que no existe. El servidor responde con `service-unavailable`.
+
+### 7. Modificación 3 - Presence unavailable
+Dentro del contenedor Scapy:
+```bash
+python3 mod3.py
+```
+Envía `presence unavailable` y luego un mensaje. El mensaje llega igual al destinatario porque la presencia y el envío de mensajes son mecanismos independientes en XMPP.
 
 ## Autores
 
