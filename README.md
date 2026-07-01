@@ -1,4 +1,4 @@
-# Tarea 2 - Taller de Redes y Servicios
+# Tarea 2 y 3 - Taller de Redes y Servicios
 ## Protocolo XMPP
 
 ##Video de demostración
@@ -97,6 +97,54 @@ xmpp
 - BIND: enlace del recurso del cliente al servidor
 - PRESENCE: anuncio de disponibilidad del cliente
 - QUERY disco#info / disco#items: descubrimiento de servicios del servidor
+
+## Tarea 3 - Inyección de tráfico con Scapy
+
+### Requisitos previos adicionales
+- Tener corriendo el servidor y al menos un cliente (ver pasos anteriores)
+
+### 1. Construir la imagen de Scapy
+```bash
+cd scapy
+sudo docker build -t scapy-mitm .
+```
+
+### 2. Levantar el contenedor Scapy
+```bash
+sudo docker run -it \
+    --name scapy-mitm \
+    --network red-xmpp \
+    --cap-add=NET_ADMIN \
+    --cap-add=NET_RAW \
+    --privileged \
+    scapy-mitm
+```
+
+### 3. Ejecutar fuzzing sobre mensajes de chat
+Dentro del contenedor:
+```bash
+python3 fuzzing1.py
+```
+Inyecta 6 payloads malformados en el campo `<body>` de estrofas `<message/>` para evaluar la robustez del parser XML de ejabberd.
+
+### 4. Ejecutar fuzzing sobre estrofas IQ
+Dentro del contenedor:
+```bash
+python3 fuzzing2.py
+```
+Inyecta 5 estrofas `<iq/>` con valores aleatorios o fuera de especificación para evaluar el manejo de errores del servidor.
+
+### Reiniciar contenedor Scapy si ya existe
+```bash
+sudo docker rm scapy-mitm
+sudo docker run -it \
+    --name scapy-mitm \
+    --network red-xmpp \
+    --cap-add=NET_ADMIN \
+    --cap-add=NET_RAW \
+    --privileged \
+    scapy-mitm
+```
 
 ## Autores
 
